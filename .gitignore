@@ -32,3 +32,4 @@
 *.app
 
 dms_server
+__pycache__*
