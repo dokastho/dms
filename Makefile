@@ -32,11 +32,11 @@ $(LIB): $(OBJECTS)
 	$(CXX) $(CXXFLAGS) $(OBJECTS) -o $(LIB) $(SO_PATH)/$(RPC_LIB) -shared
 
 clean:
-	rm -f $(OBJECTS) $(EXECUTABLE) $(TESTS) $(PARTIAL_SUBMITFILE) $(FULL_SUBMITFILE) *.out
+	rm -f $(OBJECTS) $(EXECUTABLE) $(TESTS) $(PARTIAL_SUBMITFILE) $(FULL_SUBMITFILE) *.out dms_server
 
 headers:
 	cp ../drpc/drpc.h .
-	cp ../drpc/Channel.h .
+	cp ../channel/Channel.h .
 
 # test1: test1.cpp $(LIB)
 # 	$(CXX) $(CXXFLAGS) -o $@ $^

@@ -16,7 +16,7 @@ int main()
 
     do
     {
-        std::cout << "Enter 'q' to quit" << std::endl;
+        std::cout << "Enter 'q' to quit: ";
         std::cin >> s;
     } while (s[0] != 'q');
     

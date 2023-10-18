@@ -1,6 +1,8 @@
 #ifndef DMS_H
 #define DMS_H
 
+#include <map>
+
 #include "Channel.h"
 #include "drpc.h"
 
@@ -15,6 +17,9 @@ class dms_server
 {
 private:
     drpc_server *drpc_engine;
+    priority_channel<msg> buffer;
+
+    void send_worker();
 
 public:
     dms_server(drpc_host &);
@@ -23,7 +28,7 @@ public:
 
     static void msg_receive(dms_server *, drpc_msg &);
 
-    void msg_send(msg *);
+    void msg_send(msg &);
 
     ~dms_server();
 };
