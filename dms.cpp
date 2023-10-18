@@ -20,34 +20,35 @@ void dms_server::msg_receive(dms_server *ds, drpc_msg &m)
 
     ds->sync.lock();
 
-    if (ds->completed.find(p->seed) != ds->completed.end())
+    if (ds->completed_int.find(p->seed) != ds->completed_int.end())
     {
-        r->status = ds->completed[p->seed].first;
+        r->status = ds->completed_int[p->seed];
         ds->sync.unlock();
         return;
     }
 
-    ds->completed[p->seed].first = PENDING;
+    ds->completed_int[p->seed] = PENDING;
+    ds->completed_chn[p->seed] = Channel<bool>();
     
     // add msg to the buffer
     ds->buffer.add(*p, p->rank);
     ds->sync.unlock();
 
-    ds->completed[p->seed].second.get();
+    // wait for msg to forward successfully
+    ds->completed_chn[p->seed].get();
 
     ds->sync.lock();
-    ds->completed[p->seed].first = DONE;
+    ds->completed_int[p->seed] = DONE;
     r->status = DONE;
 
     // free the channel
-    Channel<bool> *ch = &(ds->completed[p->seed].second);
-    ch->~Channel();
+    ds->completed_chn.erase(p->seed);
     ds->sync.unlock();
 }
 
 void dms_server::msg_send(msg &m)
 {
-    completed[m.seed].second.add(true);
+    completed_chn[m.seed].add(true);
 }
 
 void dms_server::send_worker()

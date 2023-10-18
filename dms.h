@@ -28,7 +28,8 @@ class dms_server
 private:
     drpc_server *drpc_engine;
     priority_channel<msg> buffer;
-    std::map<int, std::pair<uint8_t, Channel<bool>>> completed;
+    std::map<int, Channel<bool>> completed_chn;
+    std::map<int, uint8_t> completed_int;
     std::mutex sync;
 
     void send_worker();
