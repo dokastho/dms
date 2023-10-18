@@ -31,5 +31,6 @@
 *.out
 *.app
 
-dms_server
+test_server
+test_client
 __pycache__*
