@@ -32,7 +32,7 @@ $(LIB): $(OBJECTS)
 	$(CXX) $(CXXFLAGS) $(OBJECTS) -o $(LIB) $(SO_PATH)/$(RPC_LIB) -shared
 
 clean:
-	rm -f $(OBJECTS) $(EXECUTABLE) $(TESTS) $(PARTIAL_SUBMITFILE) $(FULL_SUBMITFILE) *.out test_server test_client
+	rm -f $(OBJECTS) $(EXECUTABLE) $(TESTS) $(PARTIAL_SUBMITFILE) $(FULL_SUBMITFILE) *.out test_server test_client test_receiver
 
 headers:
 	cp ../drpc/drpc.h .
@@ -48,6 +48,9 @@ test_server: test_server.cpp $(LIB) $(SO_PATH)/$(RPC_LIB)
 	$(CXX) $(CXXFLAGS) -o $@ $^
 
 test_client: test_client.cpp $(LIB) $(SO_PATH)/$(RPC_LIB) 
+	$(CXX) $(CXXFLAGS) -o $@ $^
+
+test_receiver: test_receiver.cpp $(LIB) $(SO_PATH)/$(RPC_LIB) 
 	$(CXX) $(CXXFLAGS) -o $@ $^
 
 # rule for creating objects
