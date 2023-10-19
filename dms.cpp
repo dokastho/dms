@@ -29,7 +29,7 @@ void dms_server::msg_receive(dms_server *ds, drpc_msg &m)
 
     ds->completed_int[p->seed] = PENDING;
     ds->completed_chn[p->seed] = Channel<bool>();
-    
+
     // add msg to the buffer
     ds->buffer.add(*p, p->rank);
     ds->sync.unlock();
@@ -48,6 +48,19 @@ void dms_server::msg_receive(dms_server *ds, drpc_msg &m)
 
 void dms_server::msg_send(msg &m)
 {
+    drpc_client c;
+    drpc_host dest{m.addr, m.port};
+
+    rpc_reply r{PENDING};
+
+    rpc_arg_wrapper req{m.data, sizeof(m.data)};
+    rpc_arg_wrapper rep{&r, sizeof(rpc_reply)};
+
+    int status = PENDING;
+    do
+    {
+        status = c.Call(dest, m.endpoint, &req, &rep);
+    } while (status != DONE && r.status != DONE);
     completed_chn[m.seed].add(true);
 }
 

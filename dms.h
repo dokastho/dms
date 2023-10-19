@@ -13,12 +13,21 @@
 struct msg
 {
     uint8_t rank;
+    short port;
     int seed;
-    int addr;
+    char addr[16];
+    char endpoint[16];
     char data[1024];
 };
 
 struct msg_reply
+{
+    int status;
+    int backup_addr;
+    short backup_port;
+};
+
+struct rpc_reply
 {
     int status;
 };
@@ -47,3 +56,11 @@ public:
 };
 
 #endif
+
+// primary backup design
+// 
+// if error on rpc for primary, send rpc to backup
+// if backup is not primary, reply with status code NOT_PRIMARY
+// otherwise, serve RPC
+// 
+// send backup address and port in RPC replies
