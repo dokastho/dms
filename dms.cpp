@@ -35,11 +35,19 @@ void dms_server::msg_receive(dms_server *ds, drpc_msg &m)
     ds->sync.unlock();
 
     // wait for msg to forward successfully
-    ds->completed_chn[p->seed].get();
+    bool success = ds->completed_chn[p->seed].get();
 
     ds->sync.lock();
-    ds->completed_int[p->seed] = DONE;
-    r->status = DONE;
+    if (success)
+    {
+        ds->completed_int[p->seed] = DONE;
+        r->status = DONE;
+    }
+    else
+    {
+        ds->completed_int[p->seed] = FAILED;
+        r->status = FAILED;
+    }
 
     // free the channel
     ds->completed_chn.erase(p->seed);
@@ -56,9 +64,22 @@ void dms_server::msg_send(msg &m)
     rpc_arg_wrapper req{m.data, sizeof(m.data)};
     rpc_arg_wrapper rep{&r, sizeof(rpc_reply)};
 
-    int status = PENDING;
+    int status = DONE;
+    int timeout = 16;
     do
     {
+        if (status != DONE)
+        {
+            if (timeout > 1000)
+            {
+                completed_chn[m.seed].add(false);
+                return;
+            }
+            
+            std::this_thread::sleep_for(std::chrono::milliseconds(timeout));
+            timeout *= 2;
+        }
+        
         status = c.Call(dest, m.endpoint, &req, &rep);
     } while (status != DONE && r.status != DONE);
     completed_chn[m.seed].add(true);

@@ -9,6 +9,7 @@
 
 #define DONE 0
 #define PENDING 1
+#define FAILED 2
 
 struct msg
 {
@@ -23,8 +24,8 @@ struct msg
 struct msg_reply
 {
     int status;
-    int backup_addr;
-    short backup_port;
+    // int backup_addr;
+    // short backup_port;
 };
 
 struct rpc_reply

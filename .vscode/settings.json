@@ -66,6 +66,10 @@
         "cstring": "cpp",
         "set": "cpp",
         "cassert": "cpp",
-        "stop_token": "cpp"
+        "stop_token": "cpp",
+        "compare": "cpp",
+        "concepts": "cpp",
+        "numbers": "cpp",
+        "semaphore": "cpp"
     }
 }

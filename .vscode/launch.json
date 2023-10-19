@@ -34,6 +34,37 @@
             ],
             "preLaunchTask": "C/C++: make",
             "miDebuggerPath": "/usr/bin/gdb"
+        },
+        {
+            "name": "DMS Client",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/test_client",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "environment": [
+                {
+                    "name": "LD_LIBRARY_PATH",
+                    "value": "${workspaceFolder}/../my_libs"
+                }
+            ],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                },
+                {
+                    "description": "Set Disassembly Flavor to Intel",
+                    "text": "-gdb-set disassembly-flavor intel",
+                    "ignoreFailures": true
+                }
+            ],
+            "preLaunchTask": "C/C++: make",
+            "miDebuggerPath": "/usr/bin/gdb"
         }
     ]
 }
