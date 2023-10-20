@@ -20,8 +20,15 @@ int main()
     int status;
     do
     {
+        r.status = 1;
+        status = 0;
         status = c.Call(dh, "recv", &req, &rep);
-    } while (r.status == PENDING || status != DONE);
+        if (status != 0)
+        {
+            break;
+        }
+        
+    } while (r.status == PENDING);
     if (status != DONE)
     {
         std::cout << "client send failed" << std::endl;

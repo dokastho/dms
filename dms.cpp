@@ -68,6 +68,8 @@ void dms_server::msg_send(msg &m)
     int timeout = 16;
     do
     {
+        status = DONE;
+        r.status = PENDING;
         if (status != DONE)
         {
             if (timeout > 1000)
