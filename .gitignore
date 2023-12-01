@@ -32,8 +32,6 @@
 *.app
 
 __pycache__*
-test_server
-test_client
-test_receiver
+test_basic
 drpc.h
 Channel.h

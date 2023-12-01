@@ -3,10 +3,12 @@
 
 #include "dms.h"
 #include "drpc.h"
+#include "test_helpers.h"
 
 
 int main()
 {
+    DMSTester dtr;
     std::string s = "";
 
     drpc_client c;

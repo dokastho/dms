@@ -23,7 +23,7 @@ RPC_LIB = drpc.so
 CXXFLAGS = -std=c++14 -Wconversion -Wall -Werror -Wextra -pedantic -pthread
 
 # highest target; sews together all objects into executable
-all: headers $(LIB) $(TESTS)
+all: $(LIB) $(TESTS)
 
 fast: CXXFLAGS += -ofast
 fast: clean all
