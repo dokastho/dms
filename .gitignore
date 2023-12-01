@@ -35,3 +35,5 @@ __pycache__*
 test_server
 test_client
 test_receiver
+drpc.h
+Channel.h
