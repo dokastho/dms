@@ -57,7 +57,8 @@ void dms_server::msg_receive(dms_server *ds, drpc_msg &m)
 void dms_server::msg_send(msg &m)
 {
     drpc_client c;
-    drpc_host dest{m.addr, m.port};
+    drpc_host dest{{}, m.port};
+    strcpy(dest.hostname, m.addr);
 
     rpc_reply r{PENDING};
 
